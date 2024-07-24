@@ -1,7 +1,7 @@
-// Statistics.tsx
 /** @jsxImportSource @emotion/react */
 import React from "react";
-import { calculateStatistics } from "./statCcalculation";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 import {
   mainStatistics,
   statisticsItemStyle,
@@ -19,7 +19,7 @@ const Statistics: React.FC = () => {
     genreCount,
     artistCount,
     albumCount,
-  } = calculateStatistics();
+  } = useSelector((state: RootState) => state.songs.statistics);
 
   return (
     <div css={mainStatistics}>
@@ -51,7 +51,7 @@ const Statistics: React.FC = () => {
 
         {Object.entries(genreCount).map(([genre, count]) => (
           <div css={statisticsItemStyle} key={genre}>
-            <div>{genre}:</div>
+            <div>{genre}</div>
             <div>{count}</div>
           </div>
         ))}
@@ -61,25 +61,25 @@ const Statistics: React.FC = () => {
         <div css={statisticsItemHeaderStyle}>
           <div>Artist</div>
           <div>No. Songs</div>
-          <div>No. Albem</div>
+          <div>No. Albums</div>
         </div>
         {Object.entries(artistCount).map(([artist, { songs, albums }]) => (
           <div css={statisticsItemStyle} key={artist}>
-            <div>{artist}:</div>
-            <div>Songs: {songs}</div>
-            <div>Albums: {albums.size}</div>
+            <div>{artist}</div>
+            <div>Songs {songs}</div>
+            <div>Albums {albums}</div>
           </div>
         ))}
       </div>
       <div css={statWrapper}>
         <div css={statisticsHeaderStyle}>Songs per Album:</div>
         <div css={statisticsItemHeaderStyle}>
-          <div>Albem</div>
+          <div>Album</div>
           <div>No. Songs</div>
         </div>
         {Object.entries(albumCount).map(([album, count]) => (
           <div css={statisticsItemStyle} key={album}>
-            <div>{album}:</div>
+            <div>{album}</div>
             <div>{count} songs</div>
           </div>
         ))}

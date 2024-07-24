@@ -1,10 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
+//import { useDispatch } from "react-redux";
+//import { addSong } from "../redux/songSlice";
 import {
   addSongFormStyle,
   inputFieldStyle,
   buttonStyle,
-} from "../styles/addSongStyle"; // Adjust the import path as necessary
+} from "../styles/addSongStyle";
 
 const AddSong: React.FC = () => {
   const [artist, setArtist] = useState<string>("");
@@ -12,11 +14,11 @@ const AddSong: React.FC = () => {
   const [album, setAlbum] = useState<string>("");
   const [genre, setGenre] = useState<string>("");
   const [photo, setPhoto] = useState<string>("");
+  // const dispatch = useDispatch();
 
   const handleSave = () => {
-    const newSong = { artist, title, album, genre, photo };
-    // Logic to save the new song
-    console.log("Song saved", newSong);
+    // const newSong = { artist, photo, title, album, genre }; // Assuming id is generated this way
+    //dispatch(addSong(newSong));
     // Reset form fields
     setArtist("");
     setTitle("");
@@ -26,7 +28,6 @@ const AddSong: React.FC = () => {
   };
 
   const handleCancel = () => {
-    // Logic to handle cancellation
     setArtist("");
     setTitle("");
     setAlbum("");
@@ -72,6 +73,7 @@ const AddSong: React.FC = () => {
       <div css={inputFieldStyle}>
         <input
           type="file"
+          placeholder="Photo"
           value={photo}
           onChange={(e) => setPhoto(e.target.value)}
         />

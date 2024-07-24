@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { FaPlay, FaEdit, FaTrash, FaSearch, FaPlus } from "react-icons/fa";
 import {
   songContainerStyle,
@@ -19,32 +20,42 @@ import {
   addButtonStyle,
   seeDetailsButtonStyle,
 } from "../styles/buttonStyle";
-import { songsData, Song } from "../data/data";
-import Statistics from "./statics/statLayout";
-import AddSong from "./addSong";
-
-const songsPerPage = 10;
+import { RootState } from "../redux/store";
+import Statistics from "../components/statics/statLayout";
+import AddSong from "../components/addSong";
 
 const SongList: React.FC = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [searchText, setSearchText] = useState<string>("");
   const [isSeeMore, setIsSeeMore] = useState<boolean>(false);
   const [isAddNewSong, setIsAddNewSong] = useState<boolean>(false);
+  const songs = useSelector((state: RootState) => state.songs.songs);
+  //const dispatch = useDispatch();
 
-  // Filter songs based on search Artist alphabetically
-  const getFilteredSongs = (): Song[] => {
-    return songsData.sort((a, b) => a.artist.localeCompare(b.artist));
-  };
   const handleSeeMoreToggle = () => {
     setIsSeeMore(!isSeeMore);
   };
+
   const handleAddNewSongToggle = () => {
     setIsAddNewSong(!isAddNewSong);
+  };
+
+  // Filter songs based on search Artist alphabetically
+  const getFilteredSongs = () => {
+    return songs
+      .filter((song) =>
+        song.artist.toLowerCase().includes(searchText.toLowerCase())
+      )
+      .sort((a, b) => a.artist.localeCompare(b.artist));
   };
 
   return (
     <div css={songContainerStyle}>
       <div css={actionBarStyle}>
+        <button css={addButtonStyle} onClick={handleAddNewSongToggle}>
+          <FaPlus />
+          Add New Song
+        </button>
         <div css={searchInputStyle}>
           <FaSearch />
           <input
@@ -54,10 +65,7 @@ const SongList: React.FC = () => {
             onChange={(e) => setSearchText(e.target.value)}
           />
         </div>
-        <button css={addButtonStyle} onClick={handleAddNewSongToggle}>
-          <FaPlus />
-          Add New Song
-        </button>
+
         <button css={seeDetailsButtonStyle} onClick={handleSeeMoreToggle}>
           See Details
         </button>
@@ -75,7 +83,7 @@ const SongList: React.FC = () => {
           {getFilteredSongs().map((song, index) => (
             <div
               css={songItemStyle}
-              key={song.id}
+              key={index}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
@@ -107,7 +115,6 @@ const SongList: React.FC = () => {
         <div css={popupOverlayStyle} onClick={handleSeeMoreToggle}>
           <div css={popupContentStyle} onClick={(e) => e.stopPropagation()}>
             <Statistics />
-            {/* <button onClick={handlePopupToggle}>Close</button> */}
           </div>
         </div>
       )}
@@ -115,7 +122,6 @@ const SongList: React.FC = () => {
         <div css={popupOverlayStyle} onClick={handleAddNewSongToggle}>
           <div css={popupContentStyle} onClick={(e) => e.stopPropagation()}>
             <AddSong />
-            {/* <button onClick={handlePopupToggle}>Close</button> */}
           </div>
         </div>
       )}

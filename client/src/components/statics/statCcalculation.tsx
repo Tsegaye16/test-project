@@ -1,5 +1,5 @@
 // CalculateStatistics.ts
-import { songsData, Song } from "../../data/data";
+import { songsData } from "../../data/data";
 
 export const calculateStatistics = () => {
   const totalSongs = songsData.length;

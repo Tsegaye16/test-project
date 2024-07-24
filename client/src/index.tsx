@@ -1,9 +1,10 @@
 // index.tsx or index.js
 import React from "react";
-//import ReactDOM from "react-dom";
 import { Global, css } from "@emotion/react";
 import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
 import App from "./App";
+import store from "./redux/store"; // Import the Redux store
 
 const globalStyles = css`
   * {
@@ -20,6 +21,10 @@ const root = createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <React.StrictMode>
     <Global styles={globalStyles} />
-    <App />
+    <Provider store={store}>
+      {" "}
+      {/* Wrap App with Provider */}
+      <App />
+    </Provider>
   </React.StrictMode>
 );

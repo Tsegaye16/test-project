@@ -172,9 +172,15 @@ export const popupOverlayStyle = css`
 `;
 
 export const popupContentStyle = css`
+  display: flex;
+  flex-direction: column; /* To stack children vertically */
+  align-items: stretch; /* Make sure children take full width */
   background: #fff;
   padding: 20px;
+  max-height: 80vh; /* Adjust based on your needs */
   border-radius: 8px;
   position: relative;
-  width: 30%;
+  width: 40vw; /* Adjust based on your needs */
+  overflow-y: auto; /* Enable vertical scrolling */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional, for better visibility */
 `;
