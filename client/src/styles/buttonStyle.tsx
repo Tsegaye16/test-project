@@ -2,15 +2,15 @@ import { css } from "@emotion/react";
 export const buttonStyle = css`
   background-color: transparent;
   border: none;
-  color: white;
+  color: black;
   cursor: pointer;
   font-size: 1.2em;
   margin-left: 50px;
   transition: color 0.3s ease;
 
-  &:hover {
+  /* &:hover {
     color: #ffcc00;
-  }
+  } */
 
   &:focus {
     outline: none;

@@ -4,22 +4,22 @@ import React from "react";
 import { Global, css } from "@emotion/react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
-
-const globalStyles = css`
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  body {
-    background-color: #14145a;
-  }
-`;
+import { Provider } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
+import songReducer from "./redux/songReducer";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
+
+const store = configureStore({
+  reducer: {
+    song: songReducer,
+  },
+});
+
 root.render(
   <React.StrictMode>
-    <Global styles={globalStyles} />
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 );

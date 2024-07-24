@@ -19,29 +19,33 @@ import {
   addButtonStyle,
   seeDetailsButtonStyle,
 } from "../styles/buttonStyle";
-import { songsData, Song } from "../data/data";
+import { Song } from "../data/data";
 import Statistics from "./statics/statLayout";
 import AddSong from "./addSong";
+import UpdateSong from "./updateSong";
+import { useSelector } from "react-redux";
 
-const songsPerPage = 10;
+//const songsPerPage = 10;
 
 const SongList: React.FC = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [searchText, setSearchText] = useState<string>("");
   const [isSeeMore, setIsSeeMore] = useState<boolean>(false);
   const [isAddNewSong, setIsAddNewSong] = useState<boolean>(false);
+  const [isUpdateSong, setIsUpdateSong] = useState<boolean>(false);
 
-  // Filter songs based on search Artist alphabetically
-  const getFilteredSongs = (): Song[] => {
-    return songsData.sort((a, b) => a.artist.localeCompare(b.artist));
-  };
   const handleSeeMoreToggle = () => {
     setIsSeeMore(!isSeeMore);
   };
   const handleAddNewSongToggle = () => {
     setIsAddNewSong(!isAddNewSong);
   };
-
+  const handleUpdateSongToggle = () => {
+    setIsUpdateSong(!isUpdateSong);
+  };
+  // redux
+  const songs = useSelector((state: { song: Song[] }) => state.song);
+  console.log(songs);
   return (
     <div css={songContainerStyle}>
       <div css={actionBarStyle}>
@@ -63,44 +67,37 @@ const SongList: React.FC = () => {
         </button>
       </div>
 
-      <div css={mainBody}>
-        <div css={songHeaderStyle}>
-          <div>Artist</div>
-          <div>Title</div>
-          <div>Album</div>
-          <div>Genre</div>
-          <div>Action</div>
-        </div>
-        <div css={songListStyle}>
-          {getFilteredSongs().map((song, index) => (
-            <div
-              css={songItemStyle}
-              key={song.id}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
-            >
-              <div css={songInfoStyle}>
-                {hoveredIndex === index ? <FaPlay /> : ""}
-                <img src={song.image} alt={song.title} />
-                <div className="text">
-                  <div css={album}>{song.album}</div>
-                  <div>{song.artist}</div>
-                </div>
-              </div>
-              <div>{song.title}</div>
-              <div>{song.album}</div>
-              <div>{song.genre}</div>
-              <div>
-                <button css={buttonStyle}>
-                  <FaEdit />
-                </button>
-                <button css={buttonStyle}>
-                  <FaTrash />
-                </button>
-              </div>
+      <div css={songHeaderStyle}>
+        <div>Artist</div>
+        <div>Title</div>
+        <div>Album</div>
+        <div>Genre</div>
+        <div>Action</div>
+      </div>
+      <div css={songListStyle}>
+        {songs.map((song: Song, id: Number) => (
+          <div
+            css={songItemStyle}
+            key={song.id}
+            onMouseEnter={() => setHoveredIndex(song.id)}
+            onMouseLeave={() => setHoveredIndex(null)}
+          >
+            <div css={songInfoStyle}>
+              <div>{song.artist}</div>
             </div>
-          ))}
-        </div>
+            <div>{song.title}</div>
+            <div>{song.album}</div>
+            <div>{song.genre}</div>
+            <div>
+              <button css={buttonStyle} onClick={handleUpdateSongToggle}>
+                <FaEdit />
+              </button>
+              <button css={buttonStyle}>
+                <FaTrash />
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
 
       {isSeeMore && (
@@ -115,6 +112,14 @@ const SongList: React.FC = () => {
         <div css={popupOverlayStyle} onClick={handleAddNewSongToggle}>
           <div css={popupContentStyle} onClick={(e) => e.stopPropagation()}>
             <AddSong />
+            {/* <button onClick={handlePopupToggle}>Close</button> */}
+          </div>
+        </div>
+      )}
+      {!isUpdateSong && (
+        <div css={popupOverlayStyle} onClick={handleUpdateSongToggle}>
+          <div css={popupContentStyle} onClick={(e) => e.stopPropagation()}>
+            <UpdateSong />
             {/* <button onClick={handlePopupToggle}>Close</button> */}
           </div>
         </div>

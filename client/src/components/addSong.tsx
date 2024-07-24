@@ -4,35 +4,24 @@ import {
   addSongFormStyle,
   inputFieldStyle,
   buttonStyle,
-} from "../styles/addSongStyle"; // Adjust the import path as necessary
+} from "../styles/addSongStyle"; //
+import { addSongs } from "../redux/songReducer";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const AddSong: React.FC = () => {
   const [artist, setArtist] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [album, setAlbum] = useState<string>("");
   const [genre, setGenre] = useState<string>("");
-  const [photo, setPhoto] = useState<string>("");
 
+  const dispatch = useDispatch();
   const handleSave = () => {
-    const newSong = { artist, title, album, genre, photo };
-    // Logic to save the new song
-    console.log("Song saved", newSong);
-    // Reset form fields
-    setArtist("");
-    setTitle("");
-    setAlbum("");
-    setGenre("");
-    setPhoto("");
+    //event.preventDefault();
+    dispatch(addSongs({ artist, title, album, genre }));
+    //console.log({ artist, title, album, genre, photo });
   };
-
-  const handleCancel = () => {
-    // Logic to handle cancellation
-    setArtist("");
-    setTitle("");
-    setAlbum("");
-    setGenre("");
-    setPhoto("");
-  };
+  const handleCancel = () => {};
 
   return (
     <div css={addSongFormStyle}>
@@ -69,13 +58,7 @@ const AddSong: React.FC = () => {
           onChange={(e) => setGenre(e.target.value)}
         />
       </div>
-      <div css={inputFieldStyle}>
-        <input
-          type="file"
-          value={photo}
-          onChange={(e) => setPhoto(e.target.value)}
-        />
-      </div>
+
       <div>
         <button css={buttonStyle} onClick={handleSave}>
           Save

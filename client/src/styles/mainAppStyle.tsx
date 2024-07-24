@@ -3,9 +3,8 @@ export const songContainerStyle = css`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  background-color: #101048;
-  color: white;
+  align-items: start;
+  width: 90%;
   margin: 10px;
   border-radius: 5px;
   padding: 10px;
@@ -22,9 +21,9 @@ export const sharedPadding = css`
 
 export const songHeaderStyle = css`
   width: 100%;
-  border-bottom: #ffffff8a 1px solid;
+  border-bottom: black 1px solid;
   display: flex;
-  flex: 3;
+
   font-size: 1.4em;
   align-items: center;
   justify-content: space-between;
@@ -50,17 +49,18 @@ export const songHeaderStyle = css`
 export const songListStyle = css`
   width: 100%;
   display: flex;
-  flex: 6;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: start;
+  //background-color: lightgray;
 `;
 
 export const songItemStyle = css`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
+  border-bottom: 1px lightgray solid;
   font-size: 1.4em;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -68,9 +68,9 @@ export const songItemStyle = css`
   ${sharedPadding};
 
   transition: background-color 0.3s ease;
-  &:hover {
+  /* &:hover {
     background-color: #454545;
-  }
+  } */
 
   & > div {
     flex: 1;
@@ -82,13 +82,6 @@ export const songInfoStyle = css`
   display: flex;
   align-items: center;
   justify-content: center;
-
-  & img {
-    width: 50%;
-    height: 30%;
-    border-radius: 5px;
-    margin-right: 10px;
-  }
 
   & .text {
     display: flex;
@@ -131,7 +124,7 @@ export const actionBarStyle = css`
 export const searchInputStyle = css`
   display: flex;
   align-items: center;
-  background-color: #ffffff1a;
+  background-color: lightgray;
   border-radius: 5px;
   width: 50%;
 
@@ -140,8 +133,8 @@ export const searchInputStyle = css`
 
   & input {
     border: none;
-    background: transparent;
-    color: white;
+
+    color: black;
     font-size: 1.2em;
     margin-left: 10px;
     outline: none;
@@ -176,5 +169,6 @@ export const popupContentStyle = css`
   padding: 20px;
   border-radius: 8px;
   position: relative;
+  color: black;
   width: 30%;
 `;
