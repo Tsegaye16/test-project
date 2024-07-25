@@ -1,7 +1,6 @@
-// Statistics.tsx
 /** @jsxImportSource @emotion/react */
 import React from "react";
-import { calculateStatistics } from "./statCcalculation";
+import { calculateStatistics } from "./statCcalculation"; // Update import if needed
 import {
   mainStatistics,
   statisticsItemStyle,
@@ -9,8 +8,13 @@ import {
   statWrapper,
   statisticsItemHeaderStyle,
 } from "../../styles/statLayoutStyle";
+import { Song } from "../../data/data"; // Import Song type
 
-const Statistics: React.FC = () => {
+interface StatisticsProps {
+  songsData: Song[];
+}
+
+const Statistics: React.FC<StatisticsProps> = ({ songsData }) => {
   const {
     totalSongs,
     totalArtists,
@@ -19,7 +23,7 @@ const Statistics: React.FC = () => {
     genreCount,
     artistCount,
     albumCount,
-  } = calculateStatistics();
+  } = calculateStatistics(songsData);
 
   return (
     <div css={mainStatistics}>
@@ -61,7 +65,7 @@ const Statistics: React.FC = () => {
         <div css={statisticsItemHeaderStyle}>
           <div>Artist</div>
           <div>No. Songs</div>
-          <div>No. Albem</div>
+          <div>No. Albums</div>
         </div>
         {Object.entries(artistCount).map(([artist, { songs, albums }]) => (
           <div css={statisticsItemStyle} key={artist}>
@@ -74,7 +78,7 @@ const Statistics: React.FC = () => {
       <div css={statWrapper}>
         <div css={statisticsHeaderStyle}>Songs per Album:</div>
         <div css={statisticsItemHeaderStyle}>
-          <div>Albem</div>
+          <div>Album</div>
           <div>No. Songs</div>
         </div>
         {Object.entries(albumCount).map(([album, count]) => (

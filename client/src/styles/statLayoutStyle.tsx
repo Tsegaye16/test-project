@@ -3,7 +3,7 @@ export const mainStatistics = css`
   background-color: #f4f4f4;
   padding: 20px;
   border-radius: 8px;
-  width: 100%;
+  //width: 100%;
   color: black;
   margin: 20px 0;
 `;

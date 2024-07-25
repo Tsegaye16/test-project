@@ -8,13 +8,6 @@
       {
         "button-name": "off"
       }
-    ],
-    "button-type": "off",
-    "axe/forms": [
-      "default",
-      {
-        "label": "off"
-      }
     ]
   }
 }

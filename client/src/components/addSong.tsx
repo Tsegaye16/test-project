@@ -5,7 +5,7 @@ import {
   inputFieldStyle,
   buttonStyle,
 } from "../styles/addSongStyle"; //
-import { addSongs } from "../redux/songReducer";
+
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
@@ -16,11 +16,7 @@ const AddSong: React.FC = () => {
   const [genre, setGenre] = useState<string>("");
 
   const dispatch = useDispatch();
-  const handleSave = () => {
-    //event.preventDefault();
-    dispatch(addSongs({ artist, title, album, genre }));
-    //console.log({ artist, title, album, genre, photo });
-  };
+  const handleSave = () => {};
   const handleCancel = () => {};
 
   return (

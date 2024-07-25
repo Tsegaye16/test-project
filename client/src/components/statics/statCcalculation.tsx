@@ -1,7 +1,6 @@
-// CalculateStatistics.ts
-import { songsData, Song } from "../../data/data";
+import { Song } from "../../data/data";
 
-export const calculateStatistics = () => {
+export const calculateStatistics = (songsData: Song[]) => {
   const totalSongs = songsData.length;
   const artists = new Set<string>();
   const albums = new Set<string>();
