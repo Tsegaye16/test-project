@@ -3,12 +3,13 @@ import React, { useState, useEffect } from "react";
 import { FaEdit, FaTrash, FaSearch, FaPlus } from "react-icons/fa";
 import {
   songContainerStyle,
-  songHeaderStyle,
-  songListStyle,
-  songItemStyle,
-  songInfoStyle,
-  actionBarStyle,
+  tableStyle,
+  tableHeaderStyle,
+  tableRowStyle,
+  tableCellStyle,
   searchInputStyle,
+  tableContainer,
+  actionBarStyle,
   popupOverlayStyle,
   popupContentStyle,
 } from "../styles/mainAppStyle";
@@ -17,23 +18,35 @@ import {
   addButtonStyle,
   seeDetailsButtonStyle,
 } from "../styles/buttonStyle";
-import { Song } from "../data/data";
 import Statistics from "./statics/statLayout";
 import AddSong from "./addSong";
+import { Song } from "../data/data";
 import UpdateSong from "./updateSong";
-import { GET_SONGS } from "../redux/types/type";
+import { GET_SONGS, DELETE_SONG_BY_ID } from "../redux/types/type";
 import { useDispatch, useSelector } from "react-redux";
 
 const SongList: React.FC = () => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<string | null>(null);
   const [searchText, setSearchText] = useState<string>("");
   const [isSeeMore, setIsSeeMore] = useState<boolean>(false);
   const [isAddNewSong, setIsAddNewSong] = useState<boolean>(false);
   const [isUpdateSong, setIsUpdateSong] = useState<boolean>(false);
+  const [songToUpdate, setSongToUpdate] = useState<Song | null>(null);
 
   const handleSeeMoreToggle = () => setIsSeeMore(!isSeeMore);
   const handleAddNewSongToggle = () => setIsAddNewSong(!isAddNewSong);
-  const handleUpdateSongToggle = () => setIsUpdateSong(!isUpdateSong);
+
+  const handleDelete = (id: string) => {
+    console.log("My ID", id);
+    dispatch({ type: DELETE_SONG_BY_ID, payload: id });
+  };
+  const handleUpdateSongToggle = () => {
+    setIsUpdateSong(!isUpdateSong);
+  };
+  const handleEdit = (song: Song) => {
+    setSongToUpdate(song);
+    handleUpdateSongToggle();
+  };
 
   const songs = useSelector((state: { songs: Song[] }) => state.songs);
   const dispatch = useDispatch();
@@ -41,10 +54,16 @@ const SongList: React.FC = () => {
     dispatch({ type: GET_SONGS }); // Dispatch the action to fetch songs
   }, [dispatch]);
 
+  // filter
+  const filteredSongs = songs.filter((song) =>
+    [song.artist, song.title, song.album, song.genre].some((attr) =>
+      attr.toLowerCase().includes(searchText.toLowerCase())
+    )
+  );
   return (
     <div css={songContainerStyle}>
       <div css={actionBarStyle}>
-        {/* <div css={searchInputStyle}>
+        <div css={searchInputStyle}>
           <FaSearch />
           <input
             type="text"
@@ -52,7 +71,8 @@ const SongList: React.FC = () => {
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
-        </div> */}
+        </div>
+
         <button css={addButtonStyle} onClick={handleAddNewSongToggle}>
           <FaPlus />
           Add New Song
@@ -61,49 +81,58 @@ const SongList: React.FC = () => {
           See Details
         </button>
       </div>
-
-      <div css={songHeaderStyle}>
-        <div>Artist</div>
-        <div>Title</div>
-        <div>Album</div>
-        <div>Genre</div>
-        <div>Action</div>
-      </div>
-      <div css={songListStyle}>
-        {songs.length > 0 ? (
-          songs.map((song: Song, index: number) => (
-            <div
-              css={songItemStyle}
-              key={song.id}
-              onMouseEnter={() => setHoveredIndex(song.id)}
-              onMouseLeave={() => setHoveredIndex(null)}
-            >
-              <div css={songInfoStyle}>
-                <div>{song.artist}</div>
-              </div>
-              <div>{song.title}</div>
-              <div>{song.album}</div>
-              <div>{song.genre}</div>
-              <div>
-                <button css={buttonStyle} onClick={handleUpdateSongToggle}>
-                  <FaEdit />
-                </button>
-                <button css={buttonStyle}>
-                  <FaTrash />
-                </button>
-              </div>
-            </div>
-          ))
-        ) : (
-          <div>No songs available</div>
-        )}
+      <div css={tableContainer}>
+        <table css={tableStyle}>
+          <thead css={tableHeaderStyle}>
+            <tr>
+              <th>Artist</th>
+              <th>Title</th>
+              <th>Album</th>
+              <th>Genre</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredSongs.length > 0 ? (
+              filteredSongs.map((song: Song) => (
+                <tr
+                  css={tableRowStyle}
+                  key={song._id}
+                  onMouseEnter={() => setHoveredIndex(song._id)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                >
+                  <td css={tableCellStyle}>{song.artist}</td>
+                  <td css={tableCellStyle}>{song.title}</td>
+                  <td css={tableCellStyle}>{song.album}</td>
+                  <td css={tableCellStyle}>{song.genre}</td>
+                  <td css={tableCellStyle}>
+                    <button css={buttonStyle} onClick={() => handleEdit(song)}>
+                      <FaEdit />
+                    </button>
+                    <button
+                      css={buttonStyle}
+                      onClick={() => handleDelete(song._id)}
+                    >
+                      <FaTrash />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={5} css={tableCellStyle}>
+                  No songs available
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
 
       {isSeeMore && (
         <div css={popupOverlayStyle} onClick={handleSeeMoreToggle}>
           <div css={popupContentStyle} onClick={(e) => e.stopPropagation()}>
             <Statistics songsData={songs} />
-            {/* <button onClick={handlePopupToggle}>Close</button> */}
           </div>
         </div>
       )}
@@ -111,15 +140,13 @@ const SongList: React.FC = () => {
         <div css={popupOverlayStyle} onClick={handleAddNewSongToggle}>
           <div css={popupContentStyle} onClick={(e) => e.stopPropagation()}>
             <AddSong />
-            {/* <button onClick={handlePopupToggle}>Close</button> */}
           </div>
         </div>
       )}
       {isUpdateSong && (
         <div css={popupOverlayStyle} onClick={handleUpdateSongToggle}>
           <div css={popupContentStyle} onClick={(e) => e.stopPropagation()}>
-            <UpdateSong />
-            {/* <button onClick={handlePopupToggle}>Close</button> */}
+            <UpdateSong song={songToUpdate} onClose={handleUpdateSongToggle} />
           </div>
         </div>
       )}

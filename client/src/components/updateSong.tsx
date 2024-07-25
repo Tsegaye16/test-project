@@ -1,21 +1,52 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   addSongFormStyle,
   inputFieldStyle,
   buttonStyle,
-} from "../styles/addSongStyle"; //
-
-const UpdateSong: React.FC = () => {
+} from "../styles/addSongStyle";
+import { Song } from "../data/data";
+import { useDispatch } from "react-redux";
+import { UPDATE_SONG_BY_ID } from "../redux/types/type";
+interface UpdateSongProps {
+  song: Song | null;
+  onClose: () => void;
+}
+const UpdateSong: React.FC<UpdateSongProps> = ({ song, onClose }) => {
   const [artist, setArtist] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [album, setAlbum] = useState<string>("");
   const [genre, setGenre] = useState<string>("");
-  const [photo, setPhoto] = useState<string>("");
 
-  const handleSave = () => {};
+  const dispatch = useDispatch();
 
-  const handleCancel = () => {};
+  // Set state when song prop changes
+  useEffect(() => {
+    if (song) {
+      setArtist(song.artist);
+      setTitle(song.title);
+      setAlbum(song.album);
+      setGenre(song.genre);
+    }
+  }, [song]);
+
+  const handleSave = () => {
+    if (song) {
+      const updatedSong: Song = {
+        ...song,
+        artist,
+        title,
+        album,
+        genre,
+      };
+      dispatch({ type: UPDATE_SONG_BY_ID, payload: updatedSong });
+      onClose(); // Close the popup after saving
+    }
+  };
+
+  const handleCancel = () => {
+    onClose(); // Close the popup without saving
+  };
 
   return (
     <div css={addSongFormStyle}>
@@ -52,13 +83,7 @@ const UpdateSong: React.FC = () => {
           onChange={(e) => setGenre(e.target.value)}
         />
       </div>
-      <div css={inputFieldStyle}>
-        <input
-          type="file"
-          value={photo}
-          onChange={(e) => setPhoto(e.target.value)}
-        />
-      </div>
+
       <div>
         <button css={buttonStyle} onClick={handleSave}>
           Save

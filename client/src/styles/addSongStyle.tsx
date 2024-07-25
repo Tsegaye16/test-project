@@ -5,9 +5,9 @@ export const addSongFormStyle = css`
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
   margin: 0 auto;
   color: black;
+  width: 500px;
 `;
 
 export const inputFieldStyle = css`
@@ -20,6 +20,10 @@ export const inputFieldStyle = css`
     border: 1px solid #ccc;
     border-radius: 4px;
     outline: none;
+    &:focus {
+      outline: none;
+      border: 1px solid #000;
+    }
   }
 `;
 

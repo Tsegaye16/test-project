@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+
 export const songContainerStyle = css`
   display: flex;
   flex-direction: column;
@@ -19,97 +20,62 @@ export const sharedPadding = css`
   }
 `;
 
-export const songHeaderStyle = css`
-  width: 100%;
-  border-bottom: black 1px solid;
-  display: flex;
-
-  font-size: 1.4em;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 10px;
-  ${sharedPadding};
-
-  & > div {
-    flex: 1;
-    text-align: center;
-  }
-  @media (max-width: 768px) {
-    font-size: 1em;
-    //flex-direction: column;
-    align-items: flex-start;
-
-    & > div {
-      text-align: left;
-      padding-bottom: 5px;
-    }
-  }
-`;
-
-export const songListStyle = css`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: start;
-  //background-color: lightgray;
-`;
-
-export const songItemStyle = css`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-  border-bottom: 1px lightgray solid;
-  font-size: 1.4em;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-radius: 3px;
-  ${sharedPadding};
-
-  transition: background-color 0.3s ease;
-  /* &:hover {
-    background-color: #454545;
-  } */
-
-  & > div {
-    flex: 1;
-    text-align: center;
-  }
-`;
-
-export const songInfoStyle = css`
-  display: flex;
-  align-items: center;
+export const tableContainer = css`
+  display: inline-block;
+  //flex-direction: column;
   justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 10px;
+  padding: 10px;
+`;
 
-  & .text {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  @media (max-width: 768px) {
-    flex-direction: column;
+export const tableStyle = css`
+  width: 80%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  //margin-left: 20%;
+`;
 
-    & img {
-      margin-bottom: 10px;
-    }
-
-    & .text {
-      align-items: flex-start;
-    }
+export const tableHeaderStyle = css`
+  background-color: #f8f8f8;
+  border-bottom: 2px solid #ddd;
+  font-weight: border;
+  font-size: 1.5em;
+  th {
+    padding: 10px;
+    text-align: center;
+    font-size: 1.2em;
   }
 `;
 
-export const album = css`
+export const tableRowStyle = css`
+  &:nth-of-type(even) {
+    background-color: #f9f9f9;
+  }
+
+  &:hover {
+    background-color: #f1f1f1;
+  }
+`;
+
+export const tableCellStyle = css`
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.3em;
+`;
+
+export const actionCellStyle = css`
   display: flex;
-  font-weight: bold;
-  margin-bottom: 10px;
-  margin-top: 50px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #ddd;
 `;
 
 export const actionBarStyle = css`
-  width: 100%;
+  width: 80%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -126,14 +92,12 @@ export const searchInputStyle = css`
   align-items: center;
   background-color: lightgray;
   border-radius: 5px;
-  width: 50%;
-
+  width: 30%;
   margin-left: 10%;
   padding: 5px 10px;
 
   & input {
     border: none;
-
     color: black;
     font-size: 1.2em;
     margin-left: 10px;
@@ -144,12 +108,6 @@ export const searchInputStyle = css`
     width: 100%;
     margin-bottom: 10px;
   }
-`;
-
-export const mainBody = css`
-  display: flex;
-  flex-direction: column;
-  flex: 6;
 `;
 
 export const popupOverlayStyle = css`
@@ -166,14 +124,12 @@ export const popupOverlayStyle = css`
 
 export const popupContentStyle = css`
   display: flex;
-  flex-direction: column; /* To stack children vertically */
-  align-items: stretch; /* Make sure children take full width */
+  flex-direction: column;
+  align-items: stretch;
   background: #fff;
-  padding: 20px;
-  max-height: 80vh; /* Adjust based on your needs */
+  max-height: 80vh;
   border-radius: 8px;
   position: relative;
-  width: 30%; /* Adjust based on your needs */
-  overflow-y: auto; /* Enable vertical scrolling */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional, for better visibility */
+  overflow-y: scroll;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 `;

@@ -4,10 +4,9 @@ import {
   addSongFormStyle,
   inputFieldStyle,
   buttonStyle,
-} from "../styles/addSongStyle"; //
-
+} from "../styles/addSongStyle";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { CREATE_SONG } from "../redux/types/type";
 
 const AddSong: React.FC = () => {
   const [artist, setArtist] = useState<string>("");
@@ -16,8 +15,24 @@ const AddSong: React.FC = () => {
   const [genre, setGenre] = useState<string>("");
 
   const dispatch = useDispatch();
-  const handleSave = () => {};
-  const handleCancel = () => {};
+
+  const handleSave = () => {
+    const newSong = { id: Date.now().toString(), artist, title, album, genre };
+    dispatch({ type: CREATE_SONG, payload: newSong });
+    // Clear the form after saving
+    setArtist("");
+    setTitle("");
+    setAlbum("");
+    setGenre("");
+  };
+
+  const handleCancel = () => {
+    // Clear the form when cancel is clicked
+    setArtist("");
+    setTitle("");
+    setAlbum("");
+    setGenre("");
+  };
 
   return (
     <div css={addSongFormStyle}>
@@ -54,7 +69,6 @@ const AddSong: React.FC = () => {
           onChange={(e) => setGenre(e.target.value)}
         />
       </div>
-
       <div>
         <button css={buttonStyle} onClick={handleSave}>
           Save

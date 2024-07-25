@@ -6,14 +6,14 @@ const AppError = require("../utils/appError");
 // Fetch Song
 exports.getAllSongs = catchAsync(async (req, res, next) => {
   // get total number of collection
-  const totalSongs = await Song.countDocuments();
+
   const features = new APIFeature(Song.find(), req.query)
     .filter()
-    .sort()
-    .limitFields()
-    .paginate();
+    //  .sort()
+    .limitFields();
+  //.paginate();
   const songs = await features.query;
-  console.log(songs);
+  //console.log(songs);
   res.status(200).json({
     status: "success",
     results: songs.length,
@@ -36,6 +36,7 @@ exports.createSong = catchAsync(async (req, res, next) => {
 
 // Update Song
 exports.updateSong = catchAsync(async (req, res, next) => {
+  console.log("ID", req.params);
   const song = await Song.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -53,6 +54,7 @@ exports.updateSong = catchAsync(async (req, res, next) => {
 
 //Delete Song
 exports.deleteSong = catchAsync(async (req, res, next) => {
+  //console.log(req.params);
   const song = await Song.findByIdAndDelete(req.params.id);
   if (!song) {
     return next(new AppError("No song found with that ID", 404));
