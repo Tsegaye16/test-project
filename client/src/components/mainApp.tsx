@@ -14,7 +14,8 @@ import {
   popupContentStyle,
 } from "../styles/mainAppStyle";
 import {
-  buttonStyle,
+  deleteButtonStyle,
+  editButtonStyle,
   addButtonStyle,
   seeDetailsButtonStyle,
 } from "../styles/buttonStyle";
@@ -106,11 +107,14 @@ const SongList: React.FC = () => {
                   <td css={tableCellStyle}>{song.album}</td>
                   <td css={tableCellStyle}>{song.genre}</td>
                   <td css={tableCellStyle}>
-                    <button css={buttonStyle} onClick={() => handleEdit(song)}>
+                    <button
+                      css={editButtonStyle}
+                      onClick={() => handleEdit(song)}
+                    >
                       <FaEdit />
                     </button>
                     <button
-                      css={buttonStyle}
+                      css={deleteButtonStyle}
                       onClick={() => handleDelete(song._id)}
                     >
                       <FaTrash />

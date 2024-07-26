@@ -1,28 +1,50 @@
 import { css } from "@emotion/react";
 
+// Base button style
 export const buttonStyle = css`
-  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 1em;
+  border-radius: 0.5rem;
+  color: #fff;
+  font-weight: bold;
+  /* background-color: transparent;
   border: none;
   color: black;
   cursor: pointer;
   font-size: 1.2em;
-  //margin-left: 50px;
   transition: color 0.3s ease;
   padding-right: 30px;
-  /* &:hover {
-    color: #ffcc00;
-  } */
 
   &:focus {
     outline: none;
-  }
+  } */
 `;
+
+// Edit button style
+export const editButtonStyle = css`
+  ${buttonStyle};
+  padding: 0.3rem 0.55rem;
+  background-color: #7dd3fc;
+  margin-right: 10px;
+`;
+
+// Delete button style
+export const deleteButtonStyle = css`
+  ${buttonStyle};
+  padding: 0.3rem 0.55rem;
+  background-color: #ef4444;
+`;
+
 export const addButtonStyle = css`
   background-color: #007bff;
   border: none;
+
+  outline: none;
   color: white;
   padding: 5px 10px;
-  border-radius: 5px;
+  border-radius: 0.5em;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -45,7 +67,7 @@ export const seeDetailsButtonStyle = css`
   background: #28a745;
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 0.5em;
   cursor: pointer;
   &:hover {
     background: #218838;
