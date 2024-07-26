@@ -20,9 +20,9 @@ import {
 } from "../styles/buttonStyle";
 import Statistics from "./statics/statLayout";
 import AddSong from "./addSong";
-import { Song } from "../data/data";
+import { Song } from "../types/songsType";
 import UpdateSong from "./updateSong";
-import { GET_SONGS, DELETE_SONG_BY_ID } from "../redux/types/type";
+import { GET_SONGS, DELETE_SONG_BY_ID } from "../types/actionType";
 import { useDispatch, useSelector } from "react-redux";
 
 const SongList: React.FC = () => {
@@ -139,7 +139,7 @@ const SongList: React.FC = () => {
       {isAddNewSong && (
         <div css={popupOverlayStyle} onClick={handleAddNewSongToggle}>
           <div css={popupContentStyle} onClick={(e) => e.stopPropagation()}>
-            <AddSong />
+            <AddSong onClose={handleAddNewSongToggle} />
           </div>
         </div>
       )}

@@ -1,5 +1,5 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import songsReducer from "../slices/songs";
+import songsReducer from "./slice";
 
 const rootReducer = combineReducers({
   songs: songsReducer,

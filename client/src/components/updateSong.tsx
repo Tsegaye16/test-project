@@ -5,9 +5,9 @@ import {
   inputFieldStyle,
   buttonStyle,
 } from "../styles/addSongStyle";
-import { Song } from "../data/data";
+import { Song } from "../types/songsType";
 import { useDispatch } from "react-redux";
-import { UPDATE_SONG_BY_ID } from "../redux/types/type";
+import { UPDATE_SONG_BY_ID } from "../types/actionType";
 interface UpdateSongProps {
   song: Song | null;
   onClose: () => void;

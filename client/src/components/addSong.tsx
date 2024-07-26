@@ -6,9 +6,13 @@ import {
   buttonStyle,
 } from "../styles/addSongStyle";
 import { useDispatch } from "react-redux";
-import { CREATE_SONG } from "../redux/types/type";
+import { CREATE_SONG } from "../types/actionType";
 
-const AddSong: React.FC = () => {
+interface addSongProps {
+  onClose: () => void;
+}
+
+const AddSong: React.FC<addSongProps> = ({ onClose }) => {
   const [artist, setArtist] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [album, setAlbum] = useState<string>("");
@@ -24,6 +28,7 @@ const AddSong: React.FC = () => {
     setTitle("");
     setAlbum("");
     setGenre("");
+    onClose();
   };
 
   const handleCancel = () => {
@@ -32,6 +37,7 @@ const AddSong: React.FC = () => {
     setTitle("");
     setAlbum("");
     setGenre("");
+    onClose();
   };
 
   return (

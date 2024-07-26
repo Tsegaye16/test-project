@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Song } from "../../data/data";
+import { Song } from "../../types/songsType";
 
 const initialState: Song[] = [];
 

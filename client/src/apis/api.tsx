@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Song } from "../data/data";
+import { Song } from "../types/songsType";
 
 axios.defaults.baseURL = "http://127.0.0.1:4000";
 

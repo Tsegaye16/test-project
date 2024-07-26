@@ -12,6 +12,7 @@ exports.getAllSongs = catchAsync(async (req, res, next) => {
     //  .sort()
     .limitFields();
   //.paginate();
+
   const songs = await features.query;
   //console.log(songs);
   res.status(200).json({

@@ -1,4 +1,4 @@
-import { Song } from "../../data/data";
+import { Song } from "../../types/songsType";
 
 export const calculateStatistics = (songsData: Song[]) => {
   const totalSongs = songsData.length;

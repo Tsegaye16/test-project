@@ -8,7 +8,7 @@ import {
   statWrapper,
   statisticsItemHeaderStyle,
 } from "../../styles/statLayoutStyle";
-import { Song } from "../../data/data"; // Import Song type
+import { Song } from "../../types/songsType"; // Import Song type
 
 interface StatisticsProps {
   songsData: Song[];

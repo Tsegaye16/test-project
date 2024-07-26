@@ -6,20 +6,20 @@ import {
   createSongAPI,
   updateSongAPI,
   deleteSongByIdAPI,
-} from "../../apis/api";
+} from "../apis/api";
 import {
   addSongSlice,
   deleteSongSlice,
   editSongSlice,
   getSongsSlice,
-} from "../slices/songs";
+} from "../store/page/slice";
 import {
   CREATE_SONG,
   DELETE_SONG_BY_ID,
   GET_SONGS,
   UPDATE_SONG_BY_ID,
-} from "../types/type";
-import { Song } from "../../data/data";
+} from "../types/actionType";
+import { Song } from "../types/songsType";
 
 export function* getSongsSaga(): Generator {
   try {
@@ -43,9 +43,9 @@ export function* createSongSaga(action: PayloadAction<Song>): Generator {
 
 export function* updateSongSaga(action: PayloadAction<Song>): Generator {
   try {
-    console.log("payload", action.payload._id);
-    const result = yield call(updateSongAPI, action.payload);
-    console.log("result", result);
+    //  console.log("payload", action.payload._id);
+    yield call(updateSongAPI, action.payload);
+    // console.log("result", result);
     yield put(editSongSlice(action.payload));
   } catch (error) {
     console.error("Failed to update song:", error);
