@@ -5,27 +5,16 @@ export const buttonStyle = css`
   border: none;
   outline: none;
   cursor: pointer;
-  font-size: 1em;
+  font-size: 0.8rem;
   border-radius: 0.5rem;
   color: #fff;
   font-weight: bold;
-  /* background-color: transparent;
-  border: none;
-  color: black;
-  cursor: pointer;
-  font-size: 1.2em;
-  transition: color 0.3s ease;
-  padding-right: 30px;
-
-  &:focus {
-    outline: none;
-  } */
 `;
 
 // Edit button style
 export const editButtonStyle = css`
   ${buttonStyle};
-  padding: 0.3rem 0.55rem;
+  padding: 0.3rem 0.3rem;
   background-color: #7dd3fc;
   margin-right: 10px;
 `;
@@ -33,7 +22,7 @@ export const editButtonStyle = css`
 // Delete button style
 export const deleteButtonStyle = css`
   ${buttonStyle};
-  padding: 0.3rem 0.55rem;
+  padding: 0.3rem 0.3rem;
   background-color: #ef4444;
 `;
 

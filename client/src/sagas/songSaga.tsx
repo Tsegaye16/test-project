@@ -21,12 +21,13 @@ import {
 } from "../types/actionType";
 import { Song } from "../types/songsType";
 
-export function* getSongsSaga(): Generator {
+export function* getSongsSaga(action: PayloadAction<number>): Generator {
   try {
-    const response: any = yield call(getSongsAPI);
-    console.log(response);
+    const response: any = yield call(getSongsAPI, action.payload);
+    const totalCount = response.data.count;
     const songs = response.data.data.songs;
-    yield put(getSongsSlice(songs));
+
+    yield put(getSongsSlice({ songs, totalCount }));
   } catch (error) {
     console.error("Failed to fetch songs:", error);
   }
@@ -43,9 +44,8 @@ export function* createSongSaga(action: PayloadAction<Song>): Generator {
 
 export function* updateSongSaga(action: PayloadAction<Song>): Generator {
   try {
-    //  console.log("payload", action.payload._id);
     yield call(updateSongAPI, action.payload);
-    // console.log("result", result);
+
     yield put(editSongSlice(action.payload));
   } catch (error) {
     console.error("Failed to update song:", error);

@@ -1,37 +1,33 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Model, Schema } from "mongoose";
 
-interface SongInterface {
+// Define the interface for the song document
+interface ISong extends Document {
   title: string;
   artist: string;
-  genre: string;
   album: string;
-  createdAt: Date;
-  updatedAt: Date;
+  genre: string;
 }
 
-const songSchema = new mongoose.Schema<SongInterface>(
-  {
-    title: {
-      type: String,
-      required: [true, "Please enter a title for the song."],
-    },
-    artist: {
-      type: String,
-      required: [true, "Please enter the artist for the song."],
-    },
-    genre: {
-      type: String,
-      required: [true, "Please enter the genre for the song."],
-    },
-    album: {
-      type: String,
-      required: [true, "Please enter the album for the song."],
-    },
+// Define the schema
+const songSchema: Schema<ISong> = new Schema({
+  title: {
+    type: String,
+    required: true,
   },
-  {
-    timestamps: true,
-  }
-);
+  artist: {
+    type: String,
+    required: true,
+  },
+  album: {
+    type: String,
+    required: true,
+  },
+  genre: {
+    type: String,
+    required: true,
+  },
+});
 
-const Song = mongoose.model("Song", songSchema);
-export default Song;
+// Create and export the model
+const Song: Model<ISong> = mongoose.model("Song", songSchema);
+module.exports = Song;

@@ -3,7 +3,6 @@ export const mainStatistics = css`
   background-color: #f4f4f4;
   padding: 20px;
   border-radius: 8px;
-  //width: 100%;
   color: black;
   margin: 20px 0;
 `;
@@ -19,7 +18,6 @@ export const statisticsItemStyle = css`
   justify-content: space-between;
   margin-bottom: 10px;
   padding: 5px 0;
-  //border-bottom: 1px solid #ddd;
 `;
 export const statisticsItemHeaderStyle = css`
   display: flex;

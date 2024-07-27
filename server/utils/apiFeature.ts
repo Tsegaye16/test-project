@@ -1,29 +1,18 @@
-import { Document, Query, Model } from "mongoose";
-import { Request } from "express";
+import { Query } from "mongoose";
 
-// Define the type for your document (e.g., Song)
-interface SongDocument extends Document {
-  title: string;
-  artist: string;
-  genre: string;
-  album: string;
-}
-
-// Define the QueryString type with specific query parameters
 interface QueryString {
+  [key: string]: any;
   page?: string;
   sort?: string;
   limit?: string;
   fields?: string;
-  [key: string]: string | undefined;
 }
 
-// Define the APIFeatures class
-class APIFeatures<T extends Document> {
-  private query: Query<T[], T>;
+class APIFeatures<T extends Query<any, any>> {
+  private query: T;
   private queryString: QueryString;
 
-  constructor(query: Query<T[], T>, queryString: QueryString) {
+  constructor(query: T, queryString: QueryString) {
     this.query = query;
     this.queryString = queryString;
   }
@@ -31,13 +20,13 @@ class APIFeatures<T extends Document> {
   filter(): this {
     const queryObj = { ...this.queryString };
     const excludedFields = ["page", "sort", "limit", "fields"];
-    excludedFields.forEach((el) => delete queryObj[el]);
+    excludedFields.forEach((field) => delete queryObj[field]);
 
     // Advanced filtering
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
 
-    this.query = this.query.find(JSON.parse(queryStr));
+    this.query = this.query.find(JSON.parse(queryStr)) as T;
 
     return this;
   }
@@ -45,9 +34,9 @@ class APIFeatures<T extends Document> {
   sort(): this {
     if (this.queryString.sort) {
       const sortBy = this.queryString.sort.split(",").join(" ");
-      this.query = this.query.sort(sortBy);
+      this.query = this.query.sort(sortBy) as T;
     } else {
-      this.query = this.query.sort("-createdAt");
+      this.query = this.query.sort("-createdAt") as T;
     }
 
     return this;
@@ -56,9 +45,9 @@ class APIFeatures<T extends Document> {
   limitFields(): this {
     if (this.queryString.fields) {
       const fields = this.queryString.fields.split(",").join(" ");
-      this.query = this.query.select(fields);
+      this.query = this.query.select(fields) as T;
     } else {
-      this.query = this.query.select("-__v");
+      this.query = this.query.select("-__v") as T;
     }
 
     return this;
@@ -73,12 +62,12 @@ class APIFeatures<T extends Document> {
       : 10;
     const skip = (page - 1) * limit;
 
-    this.query = this.query.skip(skip).limit(limit);
+    this.query = this.query.skip(skip).limit(limit) as T;
 
     return this;
   }
 
-  getQuery(): Query<T[], T> {
+  getQuery(): T {
     return this.query;
   }
 }

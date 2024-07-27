@@ -1,25 +1,42 @@
 # syntax=docker/dockerfile:1
 
-# Comments are provided throughout this file to help you get started.
-# If you need more help, visit the Dockerfile reference guide at
-# https://docs.docker.com/go/dockerfile-reference/
-
-# Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
-
 ARG NODE_VERSION=20.10.0
+FROM node:${NODE_VERSION}-alpine AS builder
 
-FROM node:${NODE_VERSION}-alpine
-
-# Use production node environment by default.
-ENV NODE_ENV production
-
-
+# Set the working directory
 WORKDIR /usr/src/app
 
-# Run the application as a non-root user.
+# Copy package.json and package-lock.json files
 COPY package*.json ./
-run npm install
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application code
 COPY . .
 
-# Run the application.
-CMD npm start
+# Copy the TypeScript configuration file
+COPY tsconfig.json ./tsconfig.json
+
+# Build the application
+RUN npm run build
+
+# Use a smaller base image for the runtime
+FROM node:${NODE_VERSION}-alpine
+
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Copy only the necessary files from the build stage
+COPY --from=builder /usr/src/app/node_modules ./node_modules
+COPY --from=builder /usr/src/app/package.json ./package.json
+COPY --from=builder /usr/src/app/dist ./dist
+
+# Expose the application port
+EXPOSE 4000
+
+# Set the environment variable
+ENV NODE_ENV production
+
+# Run the application
+CMD ["npm", "start"]

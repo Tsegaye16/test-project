@@ -1,3 +1,27 @@
+# services:
+#   mongod_db:
+#     container_name: database_container
+#     image: mongo:latest
+#     restart: always
+#     volumes:
+#       - ./mongo:/data/db
+#     ports:
+#       - 27012:27017
+#   app:
+#     build: .
+#     ports:
+#       - 4000:3000
+#     depends_on:
+#       - mongod_db
+#     environment:
+#       NODE_ENV: development
+#       PORT: 4000
+#       DATABASE_LOCAL: mongodb://mongod_db:27017/project
+#       DATABASE_PASSWORD: On0adDgBCE5ECWh6
+#       JWT_SECRET: my-secutity-key-for-creating-jwt-token
+#       JWT_EXPIRES_ID: 90d
+version: "3.8"
+
 services:
   mongod_db:
     container_name: database_container
@@ -7,10 +31,11 @@ services:
       - ./mongo:/data/db
     ports:
       - 27012:27017
+
   app:
     build: .
     ports:
-      - 4000:3000
+      - 4000:4000
     depends_on:
       - mongod_db
     environment:

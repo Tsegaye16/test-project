@@ -13,6 +13,7 @@ import {
   popupOverlayStyle,
   popupContentStyle,
 } from "../styles/mainAppStyle";
+
 import {
   deleteButtonStyle,
   editButtonStyle,
@@ -25,42 +26,56 @@ import { Song } from "../types/songsType";
 import UpdateSong from "./updateSong";
 import { GET_SONGS, DELETE_SONG_BY_ID } from "../types/actionType";
 import { useDispatch, useSelector } from "react-redux";
+import Pagination from "./pagination";
 
 const SongList: React.FC = () => {
-  const [hoveredIndex, setHoveredIndex] = useState<string | null>(null);
   const [searchText, setSearchText] = useState<string>("");
   const [isSeeMore, setIsSeeMore] = useState<boolean>(false);
   const [isAddNewSong, setIsAddNewSong] = useState<boolean>(false);
   const [isUpdateSong, setIsUpdateSong] = useState<boolean>(false);
   const [songToUpdate, setSongToUpdate] = useState<Song | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handleSeeMoreToggle = () => setIsSeeMore(!isSeeMore);
   const handleAddNewSongToggle = () => setIsAddNewSong(!isAddNewSong);
 
   const handleDelete = (id: string) => {
-    console.log("My ID", id);
     dispatch({ type: DELETE_SONG_BY_ID, payload: id });
   };
+
   const handleUpdateSongToggle = () => {
     setIsUpdateSong(!isUpdateSong);
   };
+
   const handleEdit = (song: Song) => {
     setSongToUpdate(song);
     handleUpdateSongToggle();
   };
 
-  const songs = useSelector((state: { songs: Song[] }) => state.songs);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch({ type: GET_SONGS }); // Dispatch the action to fetch songs
-  }, [dispatch]);
+  const songs = useSelector(
+    (state: { songs: { songs: Song[]; totalCount: number } }) =>
+      state.songs.songs
+  );
+  const totalCount = useSelector(
+    (state: { songs: { songs: Song[]; totalCount: number } }) =>
+      state.songs.totalCount
+  );
+  const page = Math.ceil(totalCount / 10);
 
-  // filter
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log("Environment variiable", process.env.REACT_APP_API_BASE_URL);
+    dispatch({ type: GET_SONGS, payload: currentPage }); // Dispatch the action to fetch songs with current page
+  }, [dispatch, currentPage]);
+
+  // Filter
   const filteredSongs = songs.filter((song) =>
     [song.artist, song.title, song.album, song.genre].some((attr) =>
       attr.toLowerCase().includes(searchText.toLowerCase())
     )
   );
+
   return (
     <div css={songContainerStyle}>
       <div css={actionBarStyle}>
@@ -96,12 +111,7 @@ const SongList: React.FC = () => {
           <tbody>
             {filteredSongs.length > 0 ? (
               filteredSongs.map((song: Song) => (
-                <tr
-                  css={tableRowStyle}
-                  key={song._id}
-                  onMouseEnter={() => setHoveredIndex(song._id)}
-                  onMouseLeave={() => setHoveredIndex(null)}
-                >
+                <tr css={tableRowStyle} key={song._id}>
                   <td css={tableCellStyle}>{song.artist}</td>
                   <td css={tableCellStyle}>{song.title}</td>
                   <td css={tableCellStyle}>{song.album}</td>
@@ -131,6 +141,12 @@ const SongList: React.FC = () => {
             )}
           </tbody>
         </table>
+        <Pagination
+          className="pagination-bar"
+          currentPage={currentPage}
+          totalCount={page}
+          onPageChange={(page: any) => setCurrentPage(page)}
+        />
       </div>
 
       {isSeeMore && (

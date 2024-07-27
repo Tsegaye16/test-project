@@ -1,22 +1,22 @@
 const Song = require("../models/songModel");
 //const APIFeature = require("../utils/apiFeature");
 import APIFeatures from "../utils/apiFeature";
-import catchAsync from "../utils/catchAsync";
+const catchAsync = require("../utils/catchAsync");
 import AppError from "../utils/appError";
 
 // Fetch Son
 export const getAllSongs = catchAsync(async (req: any, res: any, next: any) => {
-  const features = new APIFeatures(Song.find(), req.query)
+  const features = new APIFeatures(Song.find(), req.query as any)
     .filter()
-    // .sort()
-    .limitFields();
-  //.paginate();
+    .sort()
+    .limitFields()
+    .paginate();
 
-  const songs = await features.getQuery(); // Using a getter method if the query is private
-
+  const songs = await features.getQuery();
+  const count = await Song.countDocuments();
   res.status(200).json({
     status: "success",
-    results: songs.length,
+    count: count,
     data: {
       songs,
     },

@@ -22,7 +22,6 @@ export const sharedPadding = css`
 
 export const tableContainer = css`
   display: inline-block;
-  //flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -34,7 +33,6 @@ export const tableStyle = css`
   width: 80%;
   border-collapse: collapse;
   margin-top: 10px;
-  //margin-left: 20%;
 `;
 
 export const tableHeaderStyle = css`
@@ -50,10 +48,6 @@ export const tableHeaderStyle = css`
 `;
 
 export const tableRowStyle = css`
-  &:nth-of-type(even) {
-    background-color: #f9f9f9;
-  }
-
   &:hover {
     background-color: #f1f1f1;
   }
@@ -79,7 +73,7 @@ export const actionBarStyle = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
+  padding: 0px;
   ${sharedPadding};
   @media (max-width: 768px) {
     flex-direction: column;
@@ -93,8 +87,8 @@ export const searchInputStyle = css`
   background-color: lightgray;
   border-radius: 5px;
   width: 30%;
-  margin-left: 10%;
-  padding: 5px 10px;
+  margin-left: 20px;
+  padding: 10px 10px;
 
   & input {
     border: none;
