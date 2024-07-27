@@ -6,6 +6,8 @@ import {
   PaginationItem,
   PaginationContainer,
   Arrow,
+  PageSize,
+  SelectOption,
 } from "../styles/paginationStyle";
 
 interface PaginationProps {
@@ -13,8 +15,9 @@ interface PaginationProps {
   totalCount: number;
   siblingCount?: number;
   currentPage: number;
-
+  pageSize: number;
   className?: string;
+  onPageSizeChanged: (pageSize: number) => void;
 }
 
 const Pagination: React.FC<PaginationProps> = (props) => {
@@ -23,7 +26,8 @@ const Pagination: React.FC<PaginationProps> = (props) => {
     totalCount,
     siblingCount = 1,
     currentPage,
-
+    pageSize,
+    onPageSizeChanged,
     className,
   } = props;
 
@@ -90,6 +94,16 @@ const Pagination: React.FC<PaginationProps> = (props) => {
       >
         <Arrow className="right" />
       </PaginationItem>
+      <PageSize
+        className="page-size"
+        value={pageSize}
+        name="pageSize"
+        onChange={(e) => onPageSizeChanged(parseInt(e.target.value))}
+      >
+        <SelectOption value={5}>5</SelectOption>
+        <SelectOption value={10}>10</SelectOption>
+        <SelectOption value={20}>20</SelectOption>
+      </PageSize>
     </PaginationContainer>
   );
 };

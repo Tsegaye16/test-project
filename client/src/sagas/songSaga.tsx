@@ -20,14 +20,24 @@ import {
   UPDATE_SONG_BY_ID,
 } from "../types/actionType";
 import { Song } from "../types/songsType";
+export interface GETSONGS_PAYLOAD {
+  currentPage: number;
+  pageSize: number;
+}
 
-export function* getSongsSaga(action: PayloadAction<number>): Generator {
+export function* getSongsSaga(
+  action: PayloadAction<GETSONGS_PAYLOAD>
+): Generator {
   try {
-    const response: any = yield call(getSongsAPI, action.payload);
+    const response: any = yield call(
+      getSongsAPI,
+      action.payload.currentPage,
+      action.payload.pageSize
+    );
     const totalCount = response.data.count;
     const songs = response.data.data.songs;
-
-    yield put(getSongsSlice({ songs, totalCount }));
+    const pageSize = action.payload.pageSize;
+    yield put(getSongsSlice({ songs, totalCount, pageSize }));
   } catch (error) {
     console.error("Failed to fetch songs:", error);
   }

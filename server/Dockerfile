@@ -1,6 +1,5 @@
-
 ARG NODE_VERSION=20.10.0
-FROM node:${NODE_VERSION}-alpine AS builder
+FROM node:${NODE_VERSION}-alpine
 
 # Set the working directory
 WORKDIR /usr/src/app
@@ -20,22 +19,11 @@ COPY tsconfig.json ./tsconfig.json
 # Build the application
 RUN npm run build
 
-# Use a smaller base image for the runtime
-FROM node:${NODE_VERSION}-alpine
-
-# Set the working directory
-WORKDIR /usr/src/app
-
-# Copy only the necessary files from the build stage
-COPY --from=builder /usr/src/app/node_modules ./node_modules
-COPY --from=builder /usr/src/app/package.json ./package.json
-COPY --from=builder /usr/src/app/dist ./dist
-
 # Expose the application port
 EXPOSE 3000
 
 # Set the environment variable
-ENV NODE_ENV production
+ENV NODE_ENV development
 
 # Run the application
 CMD ["npm", "start"]

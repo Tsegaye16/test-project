@@ -4,11 +4,13 @@ import { Song } from "../../types/songsType";
 interface SongsState {
   songs: Song[];
   totalCount: number;
+  pageSize: number;
 }
 
 const initialState: SongsState = {
   songs: [],
   totalCount: 0,
+  pageSize: 5,
 };
 
 const songsSlice = createSlice({
@@ -17,10 +19,15 @@ const songsSlice = createSlice({
   reducers: {
     getSongsSlice: (
       state,
-      action: PayloadAction<{ songs: Song[]; totalCount: number }>
+      action: PayloadAction<{
+        songs: Song[];
+        totalCount: number;
+        pageSize: number;
+      }>
     ) => {
       state.songs = action.payload.songs;
       state.totalCount = action.payload.totalCount;
+      state.pageSize = action.payload.pageSize;
     },
     addSongSlice: (state, action: PayloadAction<Song>) => {
       state.songs.push(action.payload);

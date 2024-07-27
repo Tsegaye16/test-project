@@ -34,7 +34,8 @@ const SongList: React.FC = () => {
   const [isAddNewSong, setIsAddNewSong] = useState<boolean>(false);
   const [isUpdateSong, setIsUpdateSong] = useState<boolean>(false);
   const [songToUpdate, setSongToUpdate] = useState<Song | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(5);
 
   const handleSeeMoreToggle = () => setIsSeeMore(!isSeeMore);
   const handleAddNewSongToggle = () => setIsAddNewSong(!isAddNewSong);
@@ -60,14 +61,13 @@ const SongList: React.FC = () => {
     (state: { songs: { songs: Song[]; totalCount: number } }) =>
       state.songs.totalCount
   );
-  const page = Math.ceil(totalCount / 10);
+  const page = Math.ceil(totalCount / pageSize);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("Environment variiable", process.env.REACT_APP_API_BASE_URL);
-    dispatch({ type: GET_SONGS, payload: currentPage }); // Dispatch the action to fetch songs with current page
-  }, [dispatch, currentPage]);
+    dispatch({ type: GET_SONGS, payload: { currentPage, pageSize } }); // Dispatch the action to fetch songs with current page
+  }, [dispatch, currentPage, pageSize]);
 
   // Filter
   const filteredSongs = songs.filter((song) =>
@@ -145,7 +145,9 @@ const SongList: React.FC = () => {
           className="pagination-bar"
           currentPage={currentPage}
           totalCount={page}
+          pageSize={pageSize}
           onPageChange={(page: any) => setCurrentPage(page)}
+          onPageSizeChanged={(pageSize: number) => setPageSize(pageSize)}
         />
       </div>
 

@@ -1,4 +1,35 @@
 import styled from "styled-components";
+export const PageSize = styled.select`
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: 10px 38px 10px 16px;
+  background: #fff url("select-arrows.svg") no-repeat right 16px center;
+  background-size: 10px;
+  transition: border-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  &:hover {
+    border: 1px solid #999;
+  }
+  &:focus {
+    border: 1px solid #999;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2);
+    outline: none;
+  }
+`;
+export const SelectOption = styled.option`
+  border-radius: none;
+  &:hover {
+    background-color: lightgray;
+  }
+  &:focus {
+    background-color: lightgray;
+  }
+  &:active {
+    background-color: lightgray;
+  }
+`;
 export const PaginationContainer = styled.ul`
   display: flex;
   list-style-type: none;
