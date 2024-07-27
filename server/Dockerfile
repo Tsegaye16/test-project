@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:1
 
 ARG NODE_VERSION=20.10.0
 FROM node:${NODE_VERSION}-alpine AS builder
@@ -33,10 +32,11 @@ COPY --from=builder /usr/src/app/package.json ./package.json
 COPY --from=builder /usr/src/app/dist ./dist
 
 # Expose the application port
-EXPOSE 4000
+EXPOSE 3000
 
 # Set the environment variable
 ENV NODE_ENV production
 
 # Run the application
 CMD ["npm", "start"]
+

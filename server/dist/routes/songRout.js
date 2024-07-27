@@ -7,7 +7,7 @@ router
     .get(songController.getAllSongs)
     .post(songController.createSong);
 router
-    .route("/:id") // Adjusted to match the base path `/songs`
+    .route("/:id")
     .patch(songController.updateSong)
     .delete(songController.deleteSong);
 module.exports = router;
