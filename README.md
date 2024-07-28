@@ -16,6 +16,11 @@ Clone the repository:
 
 ```cmd
 git clone https://github.com/Tsegaye16/test-project.git
+```
+
+Navigate to the project directory:
+
+```cmd
 cd test-project
 ```
 
@@ -79,7 +84,8 @@ Great job 😂😂😂
 Now express server is running on port 4000
 
 2. To start the server on your local machine
-   1.1. Install the required packages by running the following command in your terminal:
+
+   2.1. Install the required packages by running the following command in your terminal:
 
 ```cmd
 npm install
@@ -108,7 +114,6 @@ npm run start
 cd client
 ```
 
-Then
 1.2. Install the required packages by running the following command in your terminal:
 
 ```cmd
