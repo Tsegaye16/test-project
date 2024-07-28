@@ -36,6 +36,7 @@ const SongList: React.FC = () => {
   const [songToUpdate, setSongToUpdate] = useState<Song | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(5);
+  const [sort, setSort] = useState<string>("");
 
   const handleSeeMoreToggle = () => setIsSeeMore(!isSeeMore);
   const handleAddNewSongToggle = () => setIsAddNewSong(!isAddNewSong);
@@ -66,8 +67,8 @@ const SongList: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: GET_SONGS, payload: { currentPage, pageSize } }); // Dispatch the action to fetch songs with current page
-  }, [dispatch, currentPage, pageSize]);
+    dispatch({ type: GET_SONGS, payload: { currentPage, pageSize, sort } }); // Dispatch the action to fetch songs with current page
+  }, [dispatch, currentPage, pageSize, sort]);
 
   // Filter
   const filteredSongs = songs.filter((song) =>
@@ -76,9 +77,24 @@ const SongList: React.FC = () => {
     )
   );
 
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSort(e.target.value);
+  };
+
   return (
     <div css={songContainerStyle}>
       <div css={actionBarStyle}>
+        <select
+          className="page-size"
+          value={sort}
+          name="sort"
+          onChange={handleSortChange}
+        >
+          <option value="artist">Artist</option>
+          <option value="title">Title</option>
+          <option value="album">Album</option>
+          <option value="genre">Genre</option>
+        </select>
         <div css={searchInputStyle}>
           <FaSearch />
           <input
@@ -88,7 +104,6 @@ const SongList: React.FC = () => {
             onChange={(e) => setSearchText(e.target.value)}
           />
         </div>
-
         <button css={addButtonStyle} onClick={handleAddNewSongToggle}>
           <FaPlus />
           Add New Song

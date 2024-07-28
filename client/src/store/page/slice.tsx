@@ -5,12 +5,14 @@ interface SongsState {
   songs: Song[];
   totalCount: number;
   pageSize: number;
+  sort: string;
 }
 
 const initialState: SongsState = {
   songs: [],
   totalCount: 0,
   pageSize: 5,
+  sort: "",
 };
 
 const songsSlice = createSlice({
@@ -23,11 +25,13 @@ const songsSlice = createSlice({
         songs: Song[];
         totalCount: number;
         pageSize: number;
+        sort: string;
       }>
     ) => {
       state.songs = action.payload.songs;
       state.totalCount = action.payload.totalCount;
       state.pageSize = action.payload.pageSize;
+      state.sort = action.payload.sort;
     },
     addSongSlice: (state, action: PayloadAction<Song>) => {
       state.songs.push(action.payload);
