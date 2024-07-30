@@ -116,6 +116,14 @@ cd client
 
 1.2. Install the required packages by running the following command in your terminal:
 
+Create a `.env` file in the root directory of your project and add the following environment variables:
+
+```env
+REACT_APP_LOCAL_API_BASE_URL='http://127.0.0.1:4000'
+
+REACT_APP_PROD_API_BASE_URL='https://song-app-f3vs.onrender.com'
+```
+
 ```cmd
 npm install
 ```
@@ -124,4 +132,21 @@ then nur the following command to start the react app
 
 ```cmd
 npm start
+```
+
+> [!Remember!🔥🧯🎆]
+> If you run the back-end on localhost or docker
+
+> - in the `client/src/apis/api.tsx` file change to
+
+```tsx
+const apiBaseURL = process.env.REACT_APP_LOCAL_API_BASE_URL;
+```
+
+> If you try to connect on render back-end,
+>
+> - in the `client/src/apis/api.tsx` file change to
+
+```tsx
+const apiBaseURL = process.env.REACT_APP_PROD_API_BASE_URL;
 ```
