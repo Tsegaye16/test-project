@@ -21,7 +21,6 @@ const UpdateSong: React.FC<UpdateSongProps> = ({ song, onClose }) => {
 
   useEffect(() => {
     if (song) {
-      // Do nothing; Formik will handle the initial values
     }
   }, [song]);
 
