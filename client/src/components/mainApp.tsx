@@ -84,6 +84,7 @@ const SongList: React.FC = () => {
   return (
     <div css={songContainerStyle}>
       <div css={actionBarStyle}>
+        Sort by
         <select
           className="page-size"
           value={sort}
