@@ -48,3 +48,7 @@ export const buttonStyle = css`
     }
   }
 `;
+export const errorSpan = css`
+  color: red;
+  //background-color: red;
+`;

@@ -5,6 +5,7 @@ export const mainStatistics = css`
   border-radius: 8px;
   color: black;
   margin: 20px 0;
+  width: 500px;
 `;
 export const statisticsHeaderStyle = css`
   font-size: 1.2em;

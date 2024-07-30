@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Song } from "../types/songsType";
 
-axios.defaults.baseURL = "http://127.0.0.1:4000";
+axios.defaults.baseURL = process.env.REACT_APP_PROD_API_BASE_URL as string;
 
 export const getSongsAPI = async (
   currentPage: number,
