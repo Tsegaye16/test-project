@@ -71,3 +71,26 @@ export const seeDetailsButtonStyle = css`
     width: 60%;
   }
 `;
+
+export const confirmationButtonStyle = css`
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  margin: 0 5px;
+  cursor: pointer;
+  &:hover {
+    background: #0056b3;
+  }
+`;
+
+export const cancelButtonStyle = css`
+  background: red;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  margin: 0 5px;
+  cursor: pointer;
+`;

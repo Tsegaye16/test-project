@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from "react";
 import { FaEdit, FaTrash, FaSearch, FaPlus } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 import {
   songContainerStyle,
   tableStyle,
@@ -14,20 +15,22 @@ import {
   popupContentStyle,
   labelStyle,
   selectStyle,
+  confirmationOverlayStyle,
+  confirmationPopupStyle,
 } from "../styles/mainAppStyle";
-
 import {
   deleteButtonStyle,
   editButtonStyle,
   addButtonStyle,
   seeDetailsButtonStyle,
+  confirmationButtonStyle,
+  cancelButtonStyle,
 } from "../styles/buttonStyle";
 import Statistics from "./statics/statLayout";
 import AddSong from "./addSong";
 import { Song } from "../types/songsType";
 import UpdateSong from "./updateSong";
 import { GET_SONGS, DELETE_SONG_BY_ID } from "../types/actionType";
-import { useDispatch, useSelector } from "react-redux";
 import Pagination from "./pagination";
 
 const SongList: React.FC = () => {
@@ -39,12 +42,28 @@ const SongList: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(5);
   const [sort, setSort] = useState<string>("artist");
+  const [isDeleteConfirm, setIsDeleteConfirm] = useState<Boolean>(false);
+  const [songToDelete, setSongToDelete] = useState<Song | null>(null);
 
   const handleSeeMoreToggle = () => setIsSeeMore(!isSeeMore);
   const handleAddNewSongToggle = () => setIsAddNewSong(!isAddNewSong);
 
-  const handleDelete = (id: string) => {
-    dispatch({ type: DELETE_SONG_BY_ID, payload: id });
+  const handleDeleteConfirmation = (song: Song) => {
+    setSongToDelete(song);
+    setIsDeleteConfirm(true);
+  };
+
+  const confirmDelete = () => {
+    if (songToDelete) {
+      dispatch({ type: DELETE_SONG_BY_ID, payload: songToDelete._id });
+      setSongToDelete(null);
+      setIsDeleteConfirm(false);
+    }
+  };
+
+  const cancelDelete = () => {
+    setSongToDelete(null);
+    setIsDeleteConfirm(false);
   };
 
   const handleUpdateSongToggle = () => {
@@ -146,7 +165,7 @@ const SongList: React.FC = () => {
                     </button>
                     <button
                       css={deleteButtonStyle}
-                      onClick={() => handleDelete(song._id)}
+                      onClick={() => handleDeleteConfirmation(song)}
                     >
                       <FaTrash />
                     </button>
@@ -190,6 +209,23 @@ const SongList: React.FC = () => {
         <div css={popupOverlayStyle} onClick={handleUpdateSongToggle}>
           <div css={popupContentStyle} onClick={(e) => e.stopPropagation()}>
             <UpdateSong song={songToUpdate} onClose={handleUpdateSongToggle} />
+          </div>
+        </div>
+      )}
+      {isDeleteConfirm && (
+        <div css={confirmationOverlayStyle} onClick={cancelDelete}>
+          <div
+            css={confirmationPopupStyle}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3>Confirm Delete</h3>
+            <p>Are you sure you want to delete this song?</p>
+            <button css={confirmationButtonStyle} onClick={confirmDelete}>
+              Yes, Delete
+            </button>
+            <button css={cancelButtonStyle} onClick={cancelDelete}>
+              Cancel
+            </button>
           </div>
         </div>
       )}
