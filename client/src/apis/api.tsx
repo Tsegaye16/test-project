@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Song } from "../types/songsType";
 
-axios.defaults.baseURL = process.env.REACT_APP_PROD_API_BASE_URL as string;
+axios.defaults.baseURL = "https://song-app-f3vs.onrender.com" as string;
 
 export const getSongsAPI = async (
   currentPage: number,
