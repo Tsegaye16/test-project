@@ -127,3 +127,18 @@ export const popupContentStyle = css`
   overflow-y: scroll;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 `;
+
+export const labelStyle = css`
+  margin-right: -120px;
+  font-size: 16px;
+  font-weight: bold;
+  //margin-left: 100px;
+`;
+
+export const selectStyle = css`
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  outline: none;
+`;

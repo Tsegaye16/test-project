@@ -12,6 +12,8 @@ import {
   actionBarStyle,
   popupOverlayStyle,
   popupContentStyle,
+  labelStyle,
+  selectStyle,
 } from "../styles/mainAppStyle";
 
 import {
@@ -36,7 +38,7 @@ const SongList: React.FC = () => {
   const [songToUpdate, setSongToUpdate] = useState<Song | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(5);
-  const [sort, setSort] = useState<string>("");
+  const [sort, setSort] = useState<string>("artist");
 
   const handleSeeMoreToggle = () => setIsSeeMore(!isSeeMore);
   const handleAddNewSongToggle = () => setIsAddNewSong(!isAddNewSong);
@@ -84,9 +86,12 @@ const SongList: React.FC = () => {
   return (
     <div css={songContainerStyle}>
       <div css={actionBarStyle}>
-        Sort by
+        <label css={labelStyle} htmlFor="sortSelect">
+          Sort by:
+        </label>
         <select
-          className="page-size"
+          id="sortSelect"
+          css={selectStyle}
           value={sort}
           name="sort"
           onChange={handleSortChange}
