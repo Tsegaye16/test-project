@@ -4,6 +4,7 @@ interface QueryString {
   [key: string]: any;
   page?: string;
   sort?: string;
+  order?: string;
   limit?: string;
   fields?: string;
 }
@@ -19,7 +20,7 @@ class APIFeatures<T extends Query<any, any>> {
 
   filter(): this {
     const queryObj = { ...this.queryString };
-    const excludedFields = ["page", "sort", "limit", "fields"];
+    const excludedFields = ["page", "sort", "order", "limit", "fields"];
     excludedFields.forEach((field) => delete queryObj[field]);
 
     // Advanced filtering
@@ -32,9 +33,13 @@ class APIFeatures<T extends Query<any, any>> {
   }
 
   sort(): this {
-    if (this.queryString.sort) {
-      const sortBy = this.queryString.sort.split(",").join(" ");
+    if (this.queryString.sort && this.queryString.order) {
+      const sortBy = `${this.queryString.order === "desc" ? "-" : ""}${
+        this.queryString.sort
+      }`;
       this.query = this.query.sort(sortBy) as T;
+    } else if (this.queryString.sort) {
+      this.query = this.query.sort(this.queryString.sort) as T;
     } else {
       this.query = this.query.sort("-createdAt") as T;
     }

@@ -13,8 +13,8 @@ import {
   actionBarStyle,
   popupOverlayStyle,
   popupContentStyle,
-  labelStyle,
-  selectStyle,
+  // labelStyle,
+  // selectStyle,
   confirmationOverlayStyle,
   confirmationPopupStyle,
 } from "../styles/mainAppStyle";
@@ -27,9 +27,8 @@ import {
   cancelButtonStyle,
 } from "../styles/buttonStyle";
 import Statistics from "./statics/statLayout";
-import AddSong from "./addSong";
+import SongForm from "./songForm";
 import { Song } from "../types/songsType";
-import UpdateSong from "./updateSong";
 import { GET_SONGS, DELETE_SONG_BY_ID } from "../types/actionType";
 import Pagination from "./pagination";
 
@@ -41,12 +40,16 @@ const SongList: React.FC = () => {
   const [songToUpdate, setSongToUpdate] = useState<Song | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(5);
-  const [sort, setSort] = useState<string>("artist");
+  const [sortAttribute, setSortAttribute] = useState<string>("artist");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [isDeleteConfirm, setIsDeleteConfirm] = useState<Boolean>(false);
   const [songToDelete, setSongToDelete] = useState<Song | null>(null);
 
+  const dispatch = useDispatch();
+
   const handleSeeMoreToggle = () => setIsSeeMore(!isSeeMore);
   const handleAddNewSongToggle = () => setIsAddNewSong(!isAddNewSong);
+  const handleUpdateSongToggle = () => setIsUpdateSong(!isUpdateSong);
 
   const handleDeleteConfirmation = (song: Song) => {
     setSongToDelete(song);
@@ -66,13 +69,20 @@ const SongList: React.FC = () => {
     setIsDeleteConfirm(false);
   };
 
-  const handleUpdateSongToggle = () => {
-    setIsUpdateSong(!isUpdateSong);
-  };
-
   const handleEdit = (song: Song) => {
     setSongToUpdate(song);
     handleUpdateSongToggle();
+  };
+
+  const handleSortChange = (attribute: string) => {
+    if (sortAttribute === attribute) {
+      // Toggle sort order if the same attribute is clicked
+      setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
+    } else {
+      // Set new attribute and default to ascending order
+      setSortAttribute(attribute);
+      setSortOrder("asc");
+    }
   };
 
   const songs = useSelector(
@@ -85,11 +95,12 @@ const SongList: React.FC = () => {
   );
   const page = Math.ceil(totalCount / pageSize);
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    dispatch({ type: GET_SONGS, payload: { currentPage, pageSize, sort } }); // Dispatch the action to fetch songs with current page
-  }, [dispatch, currentPage, pageSize, sort]);
+    dispatch({
+      type: GET_SONGS,
+      payload: { currentPage, pageSize, sortAttribute, sortOrder },
+    }); // Dispatch the action to fetch songs with current page
+  }, [dispatch, currentPage, pageSize, sortAttribute, sortOrder]);
 
   // Filter
   const filteredSongs = songs.filter((song) =>
@@ -98,28 +109,18 @@ const SongList: React.FC = () => {
     )
   );
 
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSort(e.target.value);
-  };
+  // Sorting logic
+  // const sortedSongs = [...filteredSongs].sort((a, b) => {
+  //   const aValue = a[sortAttribute as keyof Song].toLowerCase();
+  //   const bValue = b[sortAttribute as keyof Song].toLowerCase();
+  //   if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
+  //   if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
+  //   return 0;
+  // });
 
   return (
     <div css={songContainerStyle}>
       <div css={actionBarStyle}>
-        <label css={labelStyle} htmlFor="sortSelect">
-          Sort by
-        </label>
-        <select
-          id="sortSelect"
-          css={selectStyle}
-          value={sort}
-          name="sort"
-          onChange={handleSortChange}
-        >
-          <option value="artist">Artist</option>
-          <option value="title">Title</option>
-          <option value="album">Album</option>
-          <option value="genre">Genre</option>
-        </select>
         <div css={searchInputStyle}>
           <FaSearch />
           <input
@@ -141,10 +142,23 @@ const SongList: React.FC = () => {
         <table css={tableStyle}>
           <thead css={tableHeaderStyle}>
             <tr>
-              <th>Artist</th>
-              <th>Title</th>
-              <th>Album</th>
-              <th>Genre</th>
+              <th onClick={() => handleSortChange("artist")}>
+                Artist{" "}
+                {sortAttribute === "artist" &&
+                  (sortOrder === "asc" ? "↑" : "↓")}
+              </th>
+              <th onClick={() => handleSortChange("title")}>
+                Title{" "}
+                {sortAttribute === "title" && (sortOrder === "asc" ? "↑" : "↓")}
+              </th>
+              <th onClick={() => handleSortChange("album")}>
+                Album{" "}
+                {sortAttribute === "album" && (sortOrder === "asc" ? "↑" : "↓")}
+              </th>
+              <th onClick={() => handleSortChange("genre")}>
+                Genre{" "}
+                {sortAttribute === "genre" && (sortOrder === "asc" ? "↑" : "↓")}
+              </th>
               <th>Action</th>
             </tr>
           </thead>
@@ -201,14 +215,14 @@ const SongList: React.FC = () => {
       {isAddNewSong && (
         <div css={popupOverlayStyle} onClick={handleAddNewSongToggle}>
           <div css={popupContentStyle} onClick={(e) => e.stopPropagation()}>
-            <AddSong onClose={handleAddNewSongToggle} />
+            <SongForm onClose={handleAddNewSongToggle} />
           </div>
         </div>
       )}
       {isUpdateSong && (
         <div css={popupOverlayStyle} onClick={handleUpdateSongToggle}>
           <div css={popupContentStyle} onClick={(e) => e.stopPropagation()}>
-            <UpdateSong song={songToUpdate} onClose={handleUpdateSongToggle} />
+            <SongForm song={songToUpdate} onClose={handleUpdateSongToggle} />
           </div>
         </div>
       )}

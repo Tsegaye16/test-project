@@ -23,7 +23,8 @@ import { Song } from "../types/songsType";
 export interface GETSONGS_PAYLOAD {
   currentPage: number;
   pageSize: number;
-  sort: string;
+  sortAttribute: string;
+  sortOrder: string;
 }
 
 export function* getSongsSaga(
@@ -34,13 +35,17 @@ export function* getSongsSaga(
       getSongsAPI,
       action.payload.currentPage,
       action.payload.pageSize,
-      action.payload.sort
+      action.payload.sortAttribute,
+      action.payload.sortOrder
     );
     const totalCount = response.data.count;
     const songs = response.data.data.songs;
     const pageSize = action.payload.pageSize;
-    const sort = action.payload.sort;
-    yield put(getSongsSlice({ songs, totalCount, pageSize, sort }));
+    const sortAttribute = action.payload.sortAttribute;
+    const sortOrder = action.payload.sortOrder;
+    yield put(
+      getSongsSlice({ songs, totalCount, pageSize, sortAttribute, sortOrder })
+    );
   } catch (error) {
     console.error("Failed to fetch songs:", error);
   }
