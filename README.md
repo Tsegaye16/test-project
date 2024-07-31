@@ -1,5 +1,7 @@
 # MERN-Stack crude app
 
+[See Live Demo](https://my-song-app.netlify.app/)
+
 ## Prerequisites
 
 Before you begin, ensure you have the following installed on your system:
