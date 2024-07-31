@@ -87,7 +87,7 @@ const SongList: React.FC = () => {
     <div css={songContainerStyle}>
       <div css={actionBarStyle}>
         <label css={labelStyle} htmlFor="sortSelect">
-          Sort by:
+          Sort by
         </label>
         <select
           id="sortSelect"
