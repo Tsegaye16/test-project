@@ -13,8 +13,8 @@ const initialState: SongsState = {
   songs: [],
   totalCount: 0,
   pageSize: 5,
-  sortAttribute: "",
-  sortOrder: "",
+  sortAttribute: "artist",
+  sortOrder: "asc",
 };
 
 const songsSlice = createSlice({

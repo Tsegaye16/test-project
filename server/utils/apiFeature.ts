@@ -33,16 +33,16 @@ class APIFeatures<T extends Query<any, any>> {
   }
 
   sort(): this {
-    if (this.queryString.sort && this.queryString.order) {
-      const sortBy = `${this.queryString.order === "desc" ? "-" : ""}${
-        this.queryString.sort
-      }`;
+    if (this.queryString.sort) {
+      const order = this.queryString.order === "desc" ? "-" : "";
+      const sortBy = `${order}${this.queryString.sort}`;
       this.query = this.query.sort(sortBy) as T;
-    } else if (this.queryString.sort) {
-      this.query = this.query.sort(this.queryString.sort) as T;
     } else {
       this.query = this.query.sort("-createdAt") as T;
     }
+
+    // Apply collation for case-insensitive sorting
+    this.query = this.query.collation({ locale: "en", strength: 2 }) as T;
 
     return this;
   }

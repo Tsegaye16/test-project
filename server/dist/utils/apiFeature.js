@@ -16,16 +16,16 @@ class APIFeatures {
         return this;
     }
     sort() {
-        if (this.queryString.sort && this.queryString.order) {
-            const sortBy = `${this.queryString.order === "desc" ? "-" : ""}${this.queryString.sort}`;
+        if (this.queryString.sort) {
+            const order = this.queryString.order === "desc" ? "-" : "";
+            const sortBy = `${order}${this.queryString.sort}`;
             this.query = this.query.sort(sortBy);
-        }
-        else if (this.queryString.sort) {
-            this.query = this.query.sort(this.queryString.sort);
         }
         else {
             this.query = this.query.sort("-createdAt");
         }
+        // Apply collation for case-insensitive sorting
+        this.query = this.query.collation({ locale: "en", strength: 2 });
         return this;
     }
     limitFields() {

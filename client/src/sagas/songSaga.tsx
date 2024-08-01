@@ -72,7 +72,6 @@ export function* updateSongSaga(action: PayloadAction<Song>): Generator {
 
 export function* deleteSongByIdSaga(action: PayloadAction<string>): Generator {
   try {
-    console.log("ID", action.payload);
     yield call(deleteSongByIdAPI, action.payload);
     yield put(deleteSongSlice(action.payload));
   } catch (error) {

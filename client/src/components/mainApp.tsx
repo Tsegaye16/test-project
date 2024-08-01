@@ -13,8 +13,6 @@ import {
   actionBarStyle,
   popupOverlayStyle,
   popupContentStyle,
-  // labelStyle,
-  // selectStyle,
   confirmationOverlayStyle,
   confirmationPopupStyle,
 } from "../styles/mainAppStyle";
@@ -86,12 +84,10 @@ const SongList: React.FC = () => {
   };
 
   const songs = useSelector(
-    (state: { songs: { songs: Song[]; totalCount: number } }) =>
-      state.songs.songs
+    (state: { songs: { songs: Song[] } }) => state.songs.songs
   );
   const totalCount = useSelector(
-    (state: { songs: { songs: Song[]; totalCount: number } }) =>
-      state.songs.totalCount
+    (state: { songs: { totalCount: number } }) => state.songs.totalCount
   );
   const page = Math.ceil(totalCount / pageSize);
 
