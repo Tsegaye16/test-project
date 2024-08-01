@@ -109,15 +109,6 @@ const SongList: React.FC = () => {
     )
   );
 
-  // Sorting logic
-  // const sortedSongs = [...filteredSongs].sort((a, b) => {
-  //   const aValue = a[sortAttribute as keyof Song].toLowerCase();
-  //   const bValue = b[sortAttribute as keyof Song].toLowerCase();
-  //   if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
-  //   if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
-  //   return 0;
-  // });
-
   return (
     <div css={songContainerStyle}>
       <div css={actionBarStyle}>

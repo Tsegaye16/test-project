@@ -40,10 +40,12 @@ export const tableHeaderStyle = css`
   border-bottom: 2px solid #ddd;
   font-weight: border;
   font-size: 1.5em;
+
   th {
     padding: 10px;
     text-align: center;
     font-size: 1.2em;
+    cursor: pointer;
   }
 `;
 
