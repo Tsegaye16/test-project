@@ -41,10 +41,28 @@ const songsSlice = createSlice({
       state.songs.push(action.payload);
     },
     editSongSlice: (state, action: PayloadAction<Song>) => {
-      state.songs = state.songs.map((song) =>
-        song._id === action.payload._id ? action.payload : song
+      const updatedSongIndex = state.songs.findIndex(
+        (song) => song._id === action.payload._id
       );
+
+      if (updatedSongIndex !== -1) {
+        return {
+          ...state,
+          songs: [
+            ...state.songs.slice(0, updatedSongIndex),
+            action.payload,
+            ...state.songs.slice(updatedSongIndex + 1),
+          ],
+        };
+      }
+
+      return state; // No change if song not found
     },
+    // editSongSlice: (state, action: PayloadAction<Song>) => {
+    //         state.songs = state.songs.map((song) =>
+    //           song._id === action.payload._id ? action.payload : song
+    //         );
+    //       },
     deleteSongSlice: (state, action: PayloadAction<string>) => {
       state.songs = state.songs.filter((song) => song._id !== action.payload);
     },
