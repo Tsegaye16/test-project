@@ -1,13 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Song } from "../types/songsType";
-
-interface SongsState {
-  songs: Song[];
-  totalCount: number;
-  pageSize: number;
-  sortAttribute: string;
-  sortOrder: string;
-}
+import { SongsState } from "../types/songsType";
 
 const initialState: SongsState = {
   songs: [],

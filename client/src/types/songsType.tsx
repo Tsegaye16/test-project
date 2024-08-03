@@ -7,3 +7,10 @@ export interface Song {
   album: string;
   genre: string;
 }
+export interface SongsState {
+  songs: Song[];
+  totalCount: number;
+  pageSize: number;
+  sortAttribute: string;
+  sortOrder: string;
+}
