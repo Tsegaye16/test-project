@@ -12,7 +12,7 @@ import {
   deleteSongSlice,
   editSongSlice,
   getSongsSlice,
-} from "../store/page/slice";
+} from "../slices/slice";
 import {
   CREATE_SONG,
   DELETE_SONG_BY_ID,
